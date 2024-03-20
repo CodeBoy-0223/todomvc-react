@@ -3,6 +3,11 @@ import './index.css'
 import TaskItem from './TaskItem'
 
 export default class TaskList extends Component {
+	// 全选/全不选
+	handleToggleAllChange = e => {
+		this.props.changeAllTaskDoneStatus(e.target.checked)
+	}
+
 	render() {
 		// 接收父组件传递过来的 props
 		const { taskList, changeTaskDoneStatus, destroyTask, editTask, saveTask } = this.props
@@ -10,7 +15,12 @@ export default class TaskList extends Component {
 		return (
 			<main className='main'>
 				<div className='toggle-all-container'>
-					<input className='toggle-all' type='checkbox' />
+					<input
+						id='toggle-all'
+						className='toggle-all'
+						type='checkbox'
+						onChange={this.handleToggleAllChange}
+					/>
 					<label className='toggle-all-label' htmlFor='toggle-all'>
 						Mark all as complete
 					</label>
@@ -24,8 +34,8 @@ export default class TaskList extends Component {
 							{...taskItem}
 							changeTaskDoneStatus={changeTaskDoneStatus}
 							destroyTask={destroyTask}
-                            editTask={editTask}
-                            saveTask={saveTask}
+							editTask={editTask}
+							saveTask={saveTask}
 						/>
 					))}
 				</ul>

@@ -32,9 +32,9 @@ export default class TodoApp extends Component {
 		})
 	}
 
-    // 切换 task 至编辑模式
-    editTask = (id) => {
-        const { taskList } = this.state
+	// 切换 task 至编辑模式
+	editTask = id => {
+		const { taskList } = this.state
 		this.setState({
 			taskList: taskList.map(task => {
 				if (task.id === id) {
@@ -43,21 +43,21 @@ export default class TodoApp extends Component {
 				return task
 			}),
 		})
-    }
+	}
 
-    // 保存 task
-    saveTask = (id, content) => {
-        const { taskList } = this.state
-        this.setState({
+	// 保存 task
+	saveTask = (id, content) => {
+		const { taskList } = this.state
+		this.setState({
 			taskList: taskList.map(task => {
 				if (task.id === id) {
 					task.editing = false
-                    task.content  = content
+					task.content = content
 				}
 				return task
 			}),
 		})
-    }
+	}
 
 	// 移除 task
 	destroyTask = id => {
@@ -75,6 +75,17 @@ export default class TodoApp extends Component {
 		})
 	}
 
+	// 切换所有 task 的 done 状态
+	changeAllTaskDoneStatus = done => {
+		const { taskList } = this.state
+		this.setState({
+			taskList: taskList.map(task => {
+				task.done = done
+				return task
+			}),
+		})
+	}
+
 	render() {
 		const { taskList } = this.state
 
@@ -86,8 +97,9 @@ export default class TodoApp extends Component {
 					taskList={taskList}
 					changeTaskDoneStatus={this.changeTaskDoneStatus}
 					destroyTask={this.destroyTask}
-                    editTask={this.editTask}
-                    saveTask={this.saveTask}
+					editTask={this.editTask}
+					saveTask={this.saveTask}
+					changeAllTaskDoneStatus={this.changeAllTaskDoneStatus}
 				/>
 				{taskList.length > 0 && <Footer taskList={taskList} clearCompletedTask={this.clearCompletedTask} />}
 			</section>
