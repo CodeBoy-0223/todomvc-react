@@ -65,26 +65,15 @@ export default class TaskItem extends Component {
 				</div>
 				{editing && (
 					<input
-						ref={e => (this.inputRef = e)}
+                        autoFocus
 						type='text'
 						className='edit'
+                        defaultValue={content}
 						onBlur={this.handleSavaTask(id)}
 						onKeyUp={this.handleSavaTask(id)}
 					/>
 				)}
 			</li>
 		)
-	}
-
-    // 模拟 vue 中的 nextTick?
-	componentDidUpdate(prevProps) {
-		const { editing, content } = prevProps
-		// 如果 prevProps 中的 editing 为 false, 且 this.inputRef 有值, 则表明当前操作为切换edit模式
-		if (!editing && this.inputRef) {
-			// 聚焦
-			this.inputRef.focus()
-			// 回显数据
-			this.inputRef.value = content
-		}
 	}
 }
