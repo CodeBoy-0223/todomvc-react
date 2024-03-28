@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 
 // 引入根组件
 import App from './App'
-// 引入样式文件
+// 引入样式文件(样式文件就不做拆分了, 没有实际意义)
 import './assets/todomvc/base.css'
 import './assets/todomvc/index.css'
 

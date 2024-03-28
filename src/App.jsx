@@ -1,4 +1,8 @@
 import { Component, Fragment } from 'react'
+// 引入子组件
+import TodoHeader from './components/TodoHeader'
+import TodoList from './components/TodoList'
+import TodoFooter from './components/TodoFooter'
 
 // 类式组件
 export default class App extends Component {
@@ -6,51 +10,9 @@ export default class App extends Component {
 		return (
 			<Fragment>
 				<section className='todoapp'>
-					<header className='header'>
-						<h1>todos</h1>
-						<input className='new-todo' placeholder='What needs to be done?' autoFocus />
-					</header>
-					<main className='main'>
-						<div className='toggle-all-container'>
-							<input className='toggle-all' type='checkbox' />
-							<label className='toggle-all-label' htmlFor='toggle-all'>
-								Mark all as complete
-							</label>
-						</div>
-						<ul className='todo-list'>
-							<li className='todo-item'>
-								<div className='view'>
-									<input className='toggle' type='checkbox' />
-									<label>task-1</label>
-									<button className='destroy'></button>
-								</div>
-							</li>
-							<li className='todo-item'>
-								<div className='view'>
-									<input className='toggle' type='checkbox' />
-									<label>task-2</label>
-									<button className='destroy'></button>
-								</div>
-							</li>
-						</ul>
-					</main>
-					<footer className='footer'>
-						<span className='todo-count'></span>
-						<ul className='filters'>
-							<li>
-								<a href='#/' className='selected'>
-									All
-								</a>
-							</li>
-							<li>
-								<a href='#/active'>Active</a>
-							</li>
-							<li>
-								<a href='#/completed'>Completed</a>
-							</li>
-						</ul>
-						<button className='clear-completed'>Clear completed</button>
-					</footer>
+					<TodoHeader />
+					<TodoList />
+					<TodoFooter />
 				</section>
 				<footer className='info'>
 					<p>Double-click to edit a todo</p>
