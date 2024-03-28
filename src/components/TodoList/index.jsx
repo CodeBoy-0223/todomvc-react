@@ -11,6 +11,7 @@ export default class TodoList extends Component {
 			{ id: '001', content: '学习react', done: false, isEdit: false },
 			{ id: '002', content: '学习AI知识', done: false, isEdit: false },
 		],
+		filter: '',
 	}
 
 	// 修改指定todo的done状态
@@ -74,23 +75,57 @@ export default class TodoList extends Component {
 		})
 	}
 
+	// 更新filter, 切换展示的todoList
+	changeFilter = type => {
+		this.setState({
+			filter: type,
+		})
+	}
+
+    // 清除已完成的todo
+	clearCompletedTodo = () => {
+		this.setState({
+			todoList: this.state.todoList.filter(todo => !todo.done),
+		})
+	}
+
 	// 组件挂载完成后执行的钩子
 	componentDidMount() {
-        // 组件挂载完成后, 订阅消息
-		this.token = subscribe('addTodo', (_, data) => {
+		// 组件挂载完成后, 订阅消息
+		this.addTodoToken = subscribe('addTodo', (_, data) => {
 			this.addTodo(data)
+		})
+		this.changeFilterToken = subscribe('changeFilter', (_, type) => {
+			this.changeFilter(type)
+		})
+		this.clearCompletedTodoToken = subscribe('clearCompletedTodo', () => {
+			this.clearCompletedTodo()
 		})
 	}
 
 	// 组件将要卸载时执行的钩子
 	componentWillUnmount() {
-        // 组件将要卸载时, 取消订阅
-		unsubscribe(this.token)
+		// 组件将要卸载时, 取消订阅
+		unsubscribe(this.addTodoToken)
+		unsubscribe(this.changeFilterToken)
+		unsubscribe(this.clearCompletedTodoToken)
 	}
 
 	render() {
 		// 获取状态 - todoList
-		const { todoList } = this.state
+		const { todoList, filter } = this.state
+
+		// 计算得到页面实际渲染的todoList
+		const renderTodoList = todoList.filter(todo => {
+			switch (filter) {
+				case 'active':
+					return todo.done === false
+				case 'completed':
+					return todo.done === true
+				default:
+					return true
+			}
+		})
 
 		return (
 			<main className='main'>
@@ -101,8 +136,8 @@ export default class TodoList extends Component {
 					</label>
 				</div>
 				<ul className='todo-list'>
-					{/* 使用状态 - todoList */}
-					{todoList.map(todo => (
+					{/* 使用计算后的todoList - renderTodoList */}
+					{renderTodoList.map(todo => (
 						<TodoItem
 							key={todo.id}
 							{...todo}
