@@ -1,6 +1,8 @@
 import { Component } from 'react'
 // 引入子组件
 import TodoItem from './TodoItem'
+// 引入pubsub-js
+import { subscribe, unsubscribe } from 'pubsub-js'
 
 export default class TodoList extends Component {
 	// TodoMvc应用所依赖的状态只在TodoList组件中进行展示, 而在其他组件中只是会修改它的值. 因此可以把状态定义在此处
@@ -63,6 +65,27 @@ export default class TodoList extends Component {
 				return todo
 			}),
 		})
+	}
+
+	// 新增todo
+	addTodo = todo => {
+		this.setState({
+			todoList: [...this.state.todoList, todo],
+		})
+	}
+
+	// 组件挂载完成后执行的钩子
+	componentDidMount() {
+        // 组件挂载完成后, 订阅消息
+		this.token = subscribe('addTodo', (_, data) => {
+			this.addTodo(data)
+		})
+	}
+
+	// 组件将要卸载时执行的钩子
+	componentWillUnmount() {
+        // 组件将要卸载时, 取消订阅
+		unsubscribe(this.token)
 	}
 
 	render() {
