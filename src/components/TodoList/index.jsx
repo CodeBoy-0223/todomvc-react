@@ -3,7 +3,18 @@ import { Component } from 'react'
 import TodoItem from './TodoItem'
 
 export default class TodoList extends Component {
+	// TodoMvc应用所依赖的状态只在TodoList组件中进行展示, 而在其他组件中只是会修改它的值. 因此可以把状态定义在此处
+	state = {
+		todoList: [
+			{ id: '001', content: '学习react', done: false },
+			{ id: '002', content: '学习AI知识', done: false },
+		],
+	}
+
 	render() {
+		// 获取状态 - todoList
+		const { todoList } = this.state
+
 		return (
 			<main className='main'>
 				<div className='toggle-all-container'>
@@ -13,7 +24,10 @@ export default class TodoList extends Component {
 					</label>
 				</div>
 				<ul className='todo-list'>
-					<TodoItem />
+					{/* 使用状态 - todoList */}
+					{todoList.map(todo => (
+						<TodoItem key={todo.id} {...todo} />
+					))}
 				</ul>
 			</main>
 		)
