@@ -5,6 +5,9 @@ import ReactDOM from 'react-dom'
 
 // 引入根组件
 import App from './App'
+// 引入样式文件
+import './assets/todomvc/base.css'
+import './assets/todomvc/index.css'
 
 // 渲染根组件到页面中
 ReactDOM.render(
